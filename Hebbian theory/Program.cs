@@ -27,11 +27,11 @@
                 return 0;
         }
 
-        public int LearningNeuron(int X1, int X2,  int D)
+        public bool LearningNeuron(int X1, int X2,  int D)
         {
             this.X1 = X1;
             this.X2 = X2;
-            bool changeW = false;
+            bool out_is_correct = true;
             Net();
             output = ActivateFunction();
             if (output != D)
@@ -40,13 +40,14 @@
                 W2 += this.X2 * D;
                 T -= D;
                 Console.WriteLine($"Изменение весов:\n W1 = {W1}\n W2 = {W2}\n T = {T}");
+                out_is_correct = false;
             }
             else
                 Console.WriteLine("Выход совпал с эталонным значением");
 
             Console.WriteLine($"Выход = {output}\nЭталонное значение = {D}\n");
 
-            return output;
+            return out_is_correct;
         }
     }
     internal class Program
@@ -55,28 +56,21 @@
         {
             int[] input1 = new int[] { -1, 1, -1, 1 };
             int[] input2 = new int[] { -1, -1, 1, 1 };
-            int[] output = new int[4];
             int[] D = new int[] { -1, -1, -1, 1};
             neuron firstNeuron = new neuron();
-            bool exit = false;
+            bool exit;
             int j = 0;
             do
             {
-                    j++;
-                    Console.WriteLine($"Прогон {j}");
+                j++;
+                Console.WriteLine($"Прогон {j}");
+                exit = true;
                 for (int i = 0; i < D.Length; i++)
                 {
-                    output[i] = firstNeuron.LearningNeuron(input1[i], input2[i], D[i]);
-                }
-                for (int i = 0; i < D.Length; i++)
-                {
-                    if (output[i] != D[i]) 
+                    if (firstNeuron.LearningNeuron(input1[i], input2[i], D[i]) == false)
                     {
                         exit = false;
-                        break;
                     }
-                    else
-                        exit = true;
                 }
             } while (!exit);
         }
