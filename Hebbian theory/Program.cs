@@ -1,18 +1,18 @@
 ﻿namespace Hebbian_theory
 {
-    class neuron 
+    class Neuron 
     {
-        private int X1;
-        private int X2;
-        private const int X0 = -1;
-        private double W1 = 0;
-        private double W2 = 0;
-        private double T = 0;
-        private int output;
+        private int _x1;
+        private int _x2;
+        private const int _x0 = -1;
+        private double _w1 = 0;
+        private double _w2 = 0;
+        private double _t = 0;
+        private int _output;
 
         private double Net() 
         {
-            return W1 * X1 + W2 * X2 + T * X0;
+            return _w1 * _x1 + _w2 * _x2 + _t * _x0;
         }
 
         private int ActivateFunction(double NetRes) 
@@ -36,24 +36,24 @@
                 exit = true;
                 for (int i = 0; i < D.Length; i++)
                 {
-                    this.X1 = X1[i];
-                    this.X2 = X2[i];
+                    this._x1 = X1[i];
+                    this._x2 = X2[i];
 
-                    output = ActivateFunction(Net());
+                    _output = ActivateFunction(Net());
 
-                    if (output != D[i])
+                    if (_output != D[i])
                     {
                         exit = false;
 
-                        W1 += this.X1 * D[i];
-                        W2 += this.X2 * D[i];
-                        T -= D[i];
-                        Console.WriteLine($"Изменение весов:\n W1 = {W1}\n W2 = {W2}\n T = {T}");
+                        _w1 += this._x1 * D[i];
+                        _w2 += this._x2 * D[i];
+                        _t -= D[i];
+                        Console.WriteLine($"Изменение весов:\n W1 = {_w1}\n W2 = {_w2}\n T = {_t}");
                     }
                     else
                         Console.WriteLine("Выход совпал с эталонным значением");
 
-                    Console.WriteLine($"Выход = {output}\nЭталонное значение = {D[i]}\n");
+                    Console.WriteLine($"Выход = {_output}\nЭталонное значение = {D[i]}\n");
                 }
             } while (!exit);
         }
@@ -65,7 +65,7 @@
             int[] input1 = new int[] { -1, 1, -1, 1 };
             int[] input2 = new int[] { -1, -1, 1, 1 };
             int[] D = new int[] { -1, -1, -1, 1};
-            neuron firstNeuron = new neuron();
+            Neuron firstNeuron = new Neuron();
             firstNeuron.LearningNeuron(input1, input2, D);
         }
     }
